@@ -65,7 +65,7 @@ contactForm.addEventListener("submit", async (e) => {
 
     try {
         const response = await fetch(
-            "https://krishna-portfolio-2-m0w1.onrender.com/api/messages",
+            "https://my-portfolio-sssl.onrender.com/api/messages",
             {
                 method: "POST",
                 headers: {
