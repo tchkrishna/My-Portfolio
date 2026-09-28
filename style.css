@@ -178,7 +178,7 @@
 
     color: #ffffff;
 
-    font-size: clamp(.75rem, 7vw, 1.8srem);
+    font-size: clamp(.75rem, 7vw, 1.8rem);
 
     letter-spacing: .7em;
 
