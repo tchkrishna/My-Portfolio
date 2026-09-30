@@ -1,4 +1,14 @@
+/* =========================
+   START PAGE FROM TOP
+========================= */
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
 
+window.addEventListener("load", () => {
+    window.scrollTo(0, 0);
+});
+//intro
 window.addEventListener("load", () => {
 
     const intro = document.getElementById("intro");
@@ -8,7 +18,133 @@ window.addEventListener("load", () => {
     }, 5000);
 
 });
+/* =========================
+   ABOUT SCROLL REVEAL
+========================= */
 
+const aboutSection = document.querySelector(".about");
+
+if (aboutSection) {
+
+    const aboutObserver = new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    // Animate IN
+                    entry.target.classList.add("show");
+
+                } else {
+
+                    // Reset animation
+                    entry.target.classList.remove("show");
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.15,
+            rootMargin: "0px 0px -10% 0px"
+        }
+    );
+
+    aboutObserver.observe(aboutSection);
+}
+/* =========================
+   EDUCATION SCROLL REVEAL
+========================= */
+
+const educationCards = document.querySelectorAll(".education-card");
+
+const educationObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+            } else {
+                entry.target.classList.remove("show");
+            }
+
+        });
+    },
+    {
+        threshold: 0.2
+    }
+);
+
+educationCards.forEach((card) => {
+    educationObserver.observe(card);
+});
+/* =========================
+   SKILLS & TOOLS SCROLL ANIMATION
+========================= */
+
+const skillToolCards = document.querySelectorAll(
+    ".skill-card, .tool-card"
+);
+
+const skillToolObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+            } else {
+                entry.target.classList.remove("show");
+            }
+
+        });
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+skillToolCards.forEach((card) => {
+    skillToolObserver.observe(card);
+});
+/* =========================
+   PROJECT SCROLL ANIMATION
+   PLAYS EVERY TIME
+========================= */
+
+const projectCards = document.querySelectorAll(".project");
+
+const projectObserver = new IntersectionObserver(
+    (entries) => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                // Start animation
+                entry.target.classList.add("show");
+
+            } else {
+
+                // Reset animation when leaving
+                entry.target.classList.remove("show");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+projectCards.forEach(card => {
+    projectObserver.observe(card);
+});
+
+//
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
