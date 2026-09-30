@@ -173,13 +173,16 @@ checkOrientation();
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
 
+// =========================
+// CONTACT FORM
+// =========================
 
-// Contact Form
 const contactForm = document.getElementById("contactForm");
 const successMessage = document.getElementById("successMessage");
 const submitButton = contactForm.querySelector("button[type='submit']");
 
 contactForm.addEventListener("submit", async (e) => {
+
     e.preventDefault();
 
     const name = document.getElementById("name").value.trim();
@@ -187,26 +190,42 @@ contactForm.addEventListener("submit", async (e) => {
     const subject = document.getElementById("subject").value.trim();
     const message = document.getElementById("message").value.trim();
 
-    // Validate fields
+
+    // =========================
+    // VALIDATE FIELDS
+    // =========================
+
     if (!name || !email || !subject || !message) {
         alert("Please fill in all fields.");
         return;
     }
 
-    // Disable button while sending
+
+    // =========================
+    // DISABLE BUTTON
+    // =========================
+
     submitButton.disabled = true;
     submitButton.textContent = "Sending...";
 
     successMessage.style.display = "none";
 
+
     try {
+
+        // =========================
+        // SEND TO BACKEND
+        // =========================
+
         const response = await fetch(
             "https://my-portfolio-sssl.onrender.com/api/messages",
             {
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify({
                     name,
                     email,
@@ -216,39 +235,66 @@ contactForm.addEventListener("submit", async (e) => {
             }
         );
 
+
         const data = await response.json();
+
+
+        // =========================
+        // SUCCESS
+        // =========================
 
         if (data.success) {
 
             // Clear form
             contactForm.reset();
 
-            // Show success message
+
+            // =========================
+            // SHOW SIMPLE SUCCESS
+            // =========================
+
             successMessage.textContent =
-                "✓ Thank you! Your message is received. I will reply as soon as possible.";
+                "✓ Thank you! Your message has been received. A confirmation email has been sent to you.";
 
             successMessage.style.display = "block";
 
+
             // Change button
-            submitButton.textContent = "Message Received ✓";
+            submitButton.textContent =
+                "Message Received ✓";
+
 
         } else {
-            throw new Error(data.message || "Failed to send message.");
+
+            throw new Error(
+                data.message ||
+                "Failed to send message."
+            );
+
         }
+
 
     } catch (error) {
 
-        console.error("Contact form error:", error);
+        console.error(
+            "Contact form error:",
+            error
+        );
 
-        alert("Unable to send your message. Please try again.");
+        alert(
+            "Unable to send your message. Please try again."
+        );
+
 
         // Restore button
-        submitButton.textContent = "Send Message";
+        submitButton.textContent =
+            "Send Message";
 
     } finally {
 
         // Enable button again
         submitButton.disabled = false;
-    }
-});
 
+    }
+
+});
