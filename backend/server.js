@@ -124,7 +124,7 @@ ${message}
                 body: JSON.stringify({
 
                     from:
-                        "Krishna Portfolio <onboarding@resend.dev>",
+                        "Krishna Portfolio <noreply@ckrishna.in>",
 
                     to: [email],
 
