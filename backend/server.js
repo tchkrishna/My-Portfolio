@@ -2,32 +2,11 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-
-// =========================
-// GMAIL TRANSPORTER
-// =========================
-
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-
-    tls: {
-        family: 4
-    }
-});
 
 
 // =========================
@@ -128,56 +107,94 @@ ${message}
 
         // =========================
         // SEND CONFIRMATION EMAIL
-        // TO VISITOR
+        // USING RESEND
         // =========================
 
-        await transporter.sendMail({
+        const resendResponse = await fetch(
+            "https://api.resend.com/emails",
+            {
+                method: "POST",
 
-            from: `"Krishna Portfolio" <${process.env.EMAIL_USER}>`,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization":
+                        `Bearer ${process.env.RESEND_API_KEY}`
+                },
 
-            to: email,
+                body: JSON.stringify({
 
-            subject: "Your message has been received",
+                    from:
+                        "Krishna Portfolio <onboarding@resend.dev>",
 
-            html: `
-                <div style="
-                    font-family: Arial, sans-serif;
-                    max-width: 600px;
-                    margin: auto;
-                    padding: 30px;
-                    background: #0f172a;
-                    color: #ffffff;
-                    border-radius: 12px;
-                ">
+                    to: [email],
 
-                    <h2 style="color: #a855f7;">
-                        Hi ${name} 👋
-                    </h2>
+                    subject:
+                        "Your message has been received",
 
-                    <p style="font-size: 16px;">
-                        Your message has been received successfully.
-                    </p>
+                    html: `
+                        <div style="
+                            font-family: Arial, sans-serif;
+                            max-width: 600px;
+                            margin: auto;
+                            padding: 30px;
+                            background: #0f172a;
+                            color: #ffffff;
+                            border-radius: 12px;
+                        ">
 
-                    <p style="font-size: 16px;">
-                        Thank you for contacting me.
-                        I will reply to you as soon as possible.
-                    </p>
+                            <h2 style="color: #a855f7;">
+                                Hi ${name} 👋
+                            </h2>
 
-                    <hr style="
-                        border: none;
-                        border-top: 1px solid #334155;
-                        margin: 25px 0;
-                    ">
+                            <p style="font-size: 16px;">
+                                Your message has been received successfully.
+                            </p>
 
-                    <p style="font-size: 15px;">
-                        Regards,<br>
-                        <strong>Krishna</strong>
-                    </p>
+                            <p style="font-size: 16px;">
+                                Thank you for contacting me.
+                                I will reply to you as soon as possible.
+                            </p>
 
-                </div>
-            `
+                            <hr style="
+                                border: none;
+                                border-top: 1px solid #334155;
+                                margin: 25px 0;
+                            ">
 
-        });
+                            <p style="font-size: 15px;">
+                                Regards,<br>
+                                <strong>Krishna</strong>
+                            </p>
+
+                        </div>
+                    `
+                })
+            }
+        );
+
+
+        const resendData =
+            await resendResponse.json();
+
+
+        // =========================
+        // CHECK RESEND
+        // =========================
+
+        if (!resendResponse.ok) {
+
+            console.error(
+                "Resend Error:",
+                resendData
+            );
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    "Message received, but confirmation email could not be sent."
+            });
+
+        }
 
 
         console.log(
