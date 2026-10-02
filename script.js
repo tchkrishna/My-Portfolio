@@ -1,3 +1,14 @@
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 50) {
+        header.classList.add("scrolled");
+    } else {
+        header.classList.remove("scrolled");
+    }
+
+});
 /* =========================
    START PAGE FROM TOP
 ========================= */
@@ -31,17 +42,15 @@ if (aboutSection) {
 
             entries.forEach((entry) => {
 
-                if (entry.isIntersecting) {
+               if (entry.isIntersecting) {
 
-                    // Animate IN
-                    entry.target.classList.add("show");
+                    aboutSection.classList.add("show");
 
-                } else {
-
-                    // Reset animation
-                    entry.target.classList.remove("show");
-
+                    // Stop observing after animation starts
+                    observer.unobserve(aboutSection);
                 }
+
+
 
             });
 
