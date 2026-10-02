@@ -11,7 +11,7 @@ app.use(express.json());
 
 
 // =========================
-// EMAIL SETUP
+// GMAIL TRANSPORTER
 // =========================
 
 const transporter = nodemailer.createTransport({
@@ -24,7 +24,7 @@ const transporter = nodemailer.createTransport({
 
 
 // =========================
-// HOME
+// TEST ROUTE
 // =========================
 
 app.get("/", (req, res) => {
@@ -40,10 +40,18 @@ app.post("/api/messages", async (req, res) => {
 
     try {
 
-        const { name, email, subject, message } = req.body;
+        const {
+            name,
+            email,
+            subject,
+            message
+        } = req.body;
 
 
-        // Check required fields
+        // =========================
+        // VALIDATE
+        // =========================
+
         if (!name || !email || !subject || !message) {
 
             return res.status(400).json({
@@ -55,102 +63,7 @@ app.post("/api/messages", async (req, res) => {
 
 
         // =========================
-        // GENERATE UNIQUE CODE
-        // =========================
-
-        const submissionCode =
-            "KRS-" +
-            Math.random()
-                .toString(36)
-                .substring(2, 8)
-                .toUpperCase();
-
-
-        // =========================
-        // SEND EMAIL TO VISITOR
-        // =========================
-
-        await transporter.sendMail({
-
-            from: `"Krishna Portfolio" <${process.env.EMAIL_USER}>`,
-
-            to: email,
-
-            subject: "Your message has been received - Krishna Portfolio",
-
-            html: `
-                <div style="
-                    font-family: Arial, sans-serif;
-                    background:#020617;
-                    color:#ffffff;
-                    padding:30px;
-                    max-width:600px;
-                    margin:auto;
-                    border-radius:15px;
-                ">
-
-                    <h2 style="color:#a855f7;">
-                        Krishna Portfolio
-                    </h2>
-
-                    <p>Hello <strong>${name}</strong>,</p>
-
-                    <p>
-                        Thank you for contacting me.
-                        Your message has been successfully received.
-                    </p>
-
-                    <div style="
-                        background:#0f172a;
-                        padding:20px;
-                        border-radius:12px;
-                        margin:20px 0;
-                        border:1px solid #a855f7;
-                    ">
-
-                        <p>
-                            <strong>Submission Code:</strong>
-                        </p>
-
-                        <h2 style="
-                            color:#c084fc;
-                            letter-spacing:3px;
-                        ">
-                            ${submissionCode}
-                        </h2>
-
-                    </div>
-
-                    <p>
-                        <strong>Subject:</strong> ${subject}
-                    </p>
-
-                    <p>
-                        I will review your message and reply as soon as possible.
-                    </p>
-
-                    <p style="color:#94a3b8;">
-                        Please keep your submission code for reference.
-                    </p>
-
-                    <hr style="border-color:#334155;">
-
-                    <p style="color:#94a3b8;">
-                        © Krishna Portfolio
-                    </p>
-
-                </div>
-            `
-
-        });
-
-
-        console.log("Confirmation email sent successfully!");
-
-
-
-        // =========================
-        // TELEGRAM NOTIFICATION
+        // TELEGRAM MESSAGE
         // =========================
 
         const telegramMessage = `
@@ -159,9 +72,6 @@ app.post("/api/messages", async (req, res) => {
 👤 Name: ${name}
 📧 Email: ${email}
 📌 Subject: ${subject}
-
-🔑 Submission Code:
-${submissionCode}
 
 💬 Message:
 ${message}
@@ -172,26 +82,25 @@ ${message}
             `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
 
 
-        const telegramResponse = await fetch(telegramURL, {
+        const telegramResponse = await fetch(
+            telegramURL,
+            {
+                method: "POST",
 
-            method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                chat_id: process.env.TELEGRAM_CHAT_ID,
-
-                text: telegramMessage
-
-            })
-
-        });
+                body: JSON.stringify({
+                    chat_id: process.env.TELEGRAM_CHAT_ID,
+                    text: telegramMessage
+                })
+            }
+        );
 
 
-        const telegramData = await telegramResponse.json();
+        const telegramData =
+            await telegramResponse.json();
 
 
         if (!telegramData.ok) {
@@ -200,9 +109,6 @@ ${message}
                 "Telegram Error:",
                 telegramData
             );
-
-            // Don't fail the whole submission
-            // because the visitor's email was already sent.
 
         } else {
 
@@ -214,6 +120,65 @@ ${message}
 
 
         // =========================
+        // SEND CONFIRMATION EMAIL
+        // TO VISITOR
+        // =========================
+
+        await transporter.sendMail({
+
+            from: `"Krishna Portfolio" <${process.env.EMAIL_USER}>`,
+
+            to: email,
+
+            subject: "Your message has been received",
+
+            html: `
+                <div style="
+                    font-family: Arial, sans-serif;
+                    max-width: 600px;
+                    margin: auto;
+                    padding: 30px;
+                    background: #0f172a;
+                    color: #ffffff;
+                    border-radius: 12px;
+                ">
+
+                    <h2 style="color: #a855f7;">
+                        Hi ${name} 👋
+                    </h2>
+
+                    <p style="font-size: 16px;">
+                        Your message has been received successfully.
+                    </p>
+
+                    <p style="font-size: 16px;">
+                        Thank you for contacting me.
+                        I will reply to you as soon as possible.
+                    </p>
+
+                    <hr style="
+                        border: none;
+                        border-top: 1px solid #334155;
+                        margin: 25px 0;
+                    ">
+
+                    <p style="font-size: 15px;">
+                        Regards,<br>
+                        <strong>Krishna</strong>
+                    </p>
+
+                </div>
+            `
+
+        });
+
+
+        console.log(
+            "Confirmation email sent successfully!"
+        );
+
+
+        // =========================
         // SUCCESS RESPONSE
         // =========================
 
@@ -221,9 +186,8 @@ ${message}
 
             success: true,
 
-            message: "Message sent successfully!",
-
-            code: submissionCode
+            message:
+                "Message sent successfully and confirmation email sent."
 
         });
 
@@ -240,7 +204,8 @@ ${message}
 
             success: false,
 
-            message: "Server error. Please try again."
+            message:
+                "Message received, but confirmation email could not be sent."
 
         });
 
@@ -250,15 +215,20 @@ ${message}
 
 
 // =========================
-// SERVER
+// START SERVER
 // =========================
 
-const PORT = process.env.PORT || 5000;
+const PORT =
+    process.env.PORT || 5000;
 
-app.listen(PORT, () => {
 
-    console.log(
-        `Server running on port ${PORT}`
-    );
+app.listen(
+    PORT,
+    () => {
 
-});
+        console.log(
+            `Server running on port ${PORT}`
+        );
+
+    }
+);

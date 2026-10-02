@@ -8,19 +8,28 @@ if ("scrollRestoration" in history) {
 window.addEventListener("load", () => {
     window.scrollTo(0, 0);
 });
-//intro
+
+
+// =========================
+// INTRO
+// =========================
+
 window.addEventListener("load", () => {
 
     const intro = document.getElementById("intro");
 
-    setTimeout(() => {
-        intro.style.pointerEvents = "none";
-    }, 5000);
+    if (intro) {
+        setTimeout(() => {
+            intro.style.pointerEvents = "none";
+        }, 5000);
+    }
 
 });
-/* =========================
-   ABOUT SCROLL REVEAL
-========================= */
+
+
+// =========================
+// ABOUT SCROLL REVEAL
+// =========================
 
 const aboutSection = document.querySelector(".about");
 
@@ -33,12 +42,10 @@ if (aboutSection) {
 
                 if (entry.isIntersecting) {
 
-                    // Animate IN
                     entry.target.classList.add("show");
 
                 } else {
 
-                    // Reset animation
                     entry.target.classList.remove("show");
 
                 }
@@ -54,247 +61,391 @@ if (aboutSection) {
 
     aboutObserver.observe(aboutSection);
 }
-/* =========================
-   EDUCATION SCROLL REVEAL
-========================= */
 
-const educationCards = document.querySelectorAll(".education-card");
 
-const educationObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
+// =========================
+// EDUCATION SCROLL REVEAL
+// =========================
 
-            if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-            } else {
-                entry.target.classList.remove("show");
-            }
+const educationCards =
+    document.querySelectorAll(".education-card");
 
-        });
-    },
-    {
-        threshold: 0.2
-    }
-);
+const educationObserver =
+    new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                } else {
+
+                    entry.target.classList.remove("show");
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.2
+        }
+    );
 
 educationCards.forEach((card) => {
     educationObserver.observe(card);
 });
-/* =========================
-   SKILLS & TOOLS SCROLL ANIMATION
-========================= */
 
-const skillToolCards = document.querySelectorAll(
-    ".skill-card, .tool-card"
-);
 
-const skillToolObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
+// =========================
+// SKILLS & TOOLS SCROLL ANIMATION
+// =========================
 
-            if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-            } else {
-                entry.target.classList.remove("show");
-            }
+const skillToolCards =
+    document.querySelectorAll(
+        ".skill-card, .tool-card"
+    );
 
-        });
-    },
-    {
-        threshold: 0.15
-    }
-);
+const skillToolObserver =
+    new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                } else {
+
+                    entry.target.classList.remove("show");
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.15
+        }
+    );
 
 skillToolCards.forEach((card) => {
     skillToolObserver.observe(card);
 });
-/* =========================
-   PROJECT SCROLL ANIMATION
-   PLAYS EVERY TIME
-========================= */
 
-const projectCards = document.querySelectorAll(".project");
 
-const projectObserver = new IntersectionObserver(
-    (entries) => {
+// =========================
+// PROJECT SCROLL ANIMATION
+// PLAYS EVERY TIME
+// =========================
 
-        entries.forEach(entry => {
+const projectCards =
+    document.querySelectorAll(".project");
 
-            if (entry.isIntersecting) {
+const projectObserver =
+    new IntersectionObserver(
+        (entries) => {
 
-                // Start animation
-                entry.target.classList.add("show");
+            entries.forEach((entry) => {
 
-            } else {
+                if (entry.isIntersecting) {
 
-                // Reset animation when leaving
-                entry.target.classList.remove("show");
+                    entry.target.classList.add("show");
 
-            }
+                } else {
 
-        });
+                    entry.target.classList.remove("show");
 
-    },
-    {
-        threshold: 0.15
-    }
-);
+                }
 
-projectCards.forEach(card => {
+            });
+
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+projectCards.forEach((card) => {
     projectObserver.observe(card);
 });
 
-//
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
 
-menuToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
-});
+// =========================
+// MOBILE MENU
+// =========================
+
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const navMenu =
+    document.getElementById("navMenu");
+
+if (menuToggle && navMenu) {
+
+    menuToggle.addEventListener("click", () => {
+
+        navMenu.classList.toggle("active");
+
+    });
+
+}
+
+
+// =========================
+// ORIENTATION
+// =========================
 
 function checkOrientation() {
-  if (window.innerWidth > window.innerHeight) {
-    console.log("Landscape / 16:9 style view");
 
-    document.body.classList.add("landscape");
-    document.body.classList.remove("portrait");
-  } else {
-    console.log("Portrait / 9:16 style view");
+    if (window.innerWidth > window.innerHeight) {
 
-    document.body.classList.add("portrait");
-    document.body.classList.remove("landscape");
-  }
+        console.log(
+            "Landscape / 16:9 style view"
+        );
+
+        document.body.classList.add("landscape");
+        document.body.classList.remove("portrait");
+
+    } else {
+
+        console.log(
+            "Portrait / 9:16 style view"
+        );
+
+        document.body.classList.add("portrait");
+        document.body.classList.remove("landscape");
+
+    }
+
 }
+
 
 // Run when page loads
 checkOrientation();
 
+
 // Run whenever the phone is rotated
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("orientationchange", checkOrientation);
+window.addEventListener(
+    "resize",
+    checkOrientation
+);
+
+window.addEventListener(
+    "orientationchange",
+    checkOrientation
+);
+
 
 // =========================
 // CONTACT FORM
 // =========================
 
-const contactForm = document.getElementById("contactForm");
-const successMessage = document.getElementById("successMessage");
-const submitButton = contactForm.querySelector("button[type='submit']");
+const contactForm =
+    document.getElementById("contactForm");
 
-contactForm.addEventListener("submit", async (e) => {
+const successMessage =
+    document.getElementById("successMessage");
 
-    e.preventDefault();
+if (contactForm) {
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const subject = document.getElementById("subject").value.trim();
-    const message = document.getElementById("message").value.trim();
-
-
-    // =========================
-    // VALIDATE FIELDS
-    // =========================
-
-    if (!name || !email || !subject || !message) {
-        alert("Please fill in all fields.");
-        return;
-    }
-
-
-    // =========================
-    // DISABLE BUTTON
-    // =========================
-
-    submitButton.disabled = true;
-    submitButton.textContent = "Sending...";
-
-    successMessage.style.display = "none";
-
-
-    try {
-
-        // =========================
-        // SEND TO BACKEND
-        // =========================
-
-        const response = await fetch(
-            "https://my-portfolio-sssl.onrender.com/api/messages",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    name,
-                    email,
-                    subject,
-                    message
-                })
-            }
+    const submitButton =
+        contactForm.querySelector(
+            "button[type='submit']"
         );
 
 
-        const data = await response.json();
+    contactForm.addEventListener(
+        "submit",
+        async (e) => {
+
+            e.preventDefault();
 
 
-        // =========================
-        // SUCCESS
-        // =========================
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
 
-        if (data.success) {
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
-            // Clear form
-            contactForm.reset();
+            const subject =
+                document
+                    .getElementById("subject")
+                    .value
+                    .trim();
+
+            const message =
+                document
+                    .getElementById("message")
+                    .value
+                    .trim();
 
 
             // =========================
-            // SHOW SIMPLE SUCCESS
+            // VALIDATE FIELDS
             // =========================
 
-            successMessage.textContent =
-                "✓ Thank you! Your message has been received. A confirmation email has been sent to you.";
+            if (
+                !name ||
+                !email ||
+                !subject ||
+                !message
+            ) {
 
-            successMessage.style.display = "block";
+                alert(
+                    "Please fill in all fields."
+                );
+
+                return;
+
+            }
 
 
-            // Change button
+            // =========================
+            // DISABLE BUTTON
+            // =========================
+
+            submitButton.disabled = true;
+
             submitButton.textContent =
-                "Message Received ✓";
+                "Sending...";
+
+            successMessage.style.display =
+                "none";
 
 
-        } else {
+            try {
 
-            throw new Error(
-                data.message ||
-                "Failed to send message."
-            );
+                // =========================
+                // SEND TO BACKEND
+                // =========================
+
+                const response =
+                    await fetch(
+                        "https://my-portfolio-sssl.onrender.com/api/messages",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name,
+                                email,
+                                subject,
+                                message
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // =========================
+                // SUCCESS
+                // =========================
+
+                if (data.success) {
+
+
+                    // =========================
+                    // GOOGLE ANALYTICS
+                    // SUCCESSFUL FORM SUBMIT
+                    // =========================
+
+                    if (
+                        typeof gtag ===
+                        "function"
+                    ) {
+
+                        gtag(
+                            "event",
+                            "contact_form_submit",
+                            {
+                                form_name:
+                                    "contact_form"
+                            }
+                        );
+
+                    }
+
+
+                    // =========================
+                    // CLEAR FORM
+                    // =========================
+
+                    contactForm.reset();
+
+
+                    // =========================
+                    // SHOW SUCCESS MESSAGE
+                    // =========================
+
+                    successMessage.textContent =
+                        "✓ Thank you! Your message has been received. A confirmation email has been sent to you.";
+
+                    successMessage.style.display =
+                        "block";
+
+
+                    // =========================
+                    // CHANGE BUTTON
+                    // =========================
+
+                    submitButton.textContent =
+                        "Message Received ✓";
+
+
+                } else {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to send message."
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Contact form error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to send your message. Please try again."
+                );
+
+
+                // Restore button
+                submitButton.textContent =
+                    "Send Message";
+
+
+            } finally {
+
+                // Enable button again
+                submitButton.disabled =
+                    false;
+
+            }
 
         }
+    );
 
-
-    } catch (error) {
-
-        console.error(
-            "Contact form error:",
-            error
-        );
-
-        alert(
-            "Unable to send your message. Please try again."
-        );
-
-
-        // Restore button
-        submitButton.textContent =
-            "Send Message";
-
-    } finally {
-
-        // Enable button again
-        submitButton.disabled = false;
-
-    }
-
-});
+}

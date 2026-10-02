@@ -7,6 +7,20 @@
     <link rel="icon" type="image/webp" href="Images/fevicon.webp">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M3QB3ZMDQX"></script>
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag("js", new Date());
+
+    gtag("config", "G-M3QB3ZMDQX");
+</script>
 </head>
 <body>
 <!-- =========================
@@ -71,11 +85,11 @@
         </p>
 
         <div class="hero-buttons">
-            <a href="resume.pdf" class="btn">
+            <a href="resume.pdf" class="btn"    onclick="gtag('event', 'resume_click');">
                 View Resume
             </a>
 
-            <a href="#contact" class="btn">
+            <a href="#contact" class="btn"     onclick="gtag('event', 'lets_talk_click');">
                 Let's Talk
             </a>
         </div>
@@ -84,27 +98,27 @@
         <div class="hero-socials">
 
     <!-- LinkedIn -->
-    <a href="https://www.linkedin.com/in/krishna73/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+    <a href="https://www.linkedin.com/in/krishna73/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" onclick="gtag('event', 'linkedin_click');">
         <i class="fa-brands fa-linkedin-in"></i>
     </a>
 
     <!-- GitHub -->
-    <a href="https://github.com/tchkrishna" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+    <a href="https://github.com/tchkrishna" target="_blank" rel="noopener noreferrer" aria-label="GitHub"  onclick="gtag('event', 'github_click');">
         <i class="fa-brands fa-github"></i>
     </a>
 
     <!-- Gmail -->
-    <a href="mailto:chenchukrishna46@gmail.com" aria-label="Gmail">
+    <a href="mailto:chenchukrishna46@gmail.com" aria-label="Gmail" onclick="gtag('event', 'email_click');">
         <i class="fa-solid fa-envelope"></i>
     </a>
 
     <!-- Instagram -->
-    <a href="https://www.instagram.com/_c_krishna_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+    <a href="https://www.instagram.com/_c_krishna_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" onclick="gtag('event', 'instagram_click');">
         <i class="fa-brands fa-instagram"></i>
     </a>
 
     <!-- WhatsApp -->
-    <a href="https://wa.me/+917396960373" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <a href="https://wa.me/+917396960373" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" onclick="gtag('event', 'whatsapp_click');">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -443,7 +457,7 @@
     <!-- =========================
          LOCATION + LINKS + CONTACT
     ========================== -->
-    <section id="contact" class="contact-section">
+    <section class="contact-section">
 
     <div class="contact-area">
 
@@ -504,7 +518,7 @@
 
 
         <!-- RIGHT SIDE -->
-        <div class="contact-right">
+        <div class="contact-right" id="contact">
             <div>
             <h2 class="section-title"> Get in Touch</h2>
             </div>
