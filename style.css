@@ -354,23 +354,7 @@ body {
     background: var(--bg-primary);
     overflow-x: hidden;
 }
-html,
-body {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
 
-* {
-    box-sizing: border-box;
-}
-
-/* Make the main page fill the entire phone */
-body {
-    min-width: 100%;
-}
 a {
     text-decoration: none;
 }
@@ -2381,6 +2365,16 @@ section {
    MOBILE
 ========================= */
 @media (max-width: 768px) {
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
     header {
         padding: 14px 5%;
     }
@@ -2482,6 +2476,16 @@ section {
    SMALL MOBILE
 ========================= */
 @media (max-width: 480px) {
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
     .logo {
         font-size: 20px;
     }
