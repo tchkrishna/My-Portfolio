@@ -9,6 +9,16 @@ window.addEventListener("scroll", () => {
     }
 
 });
+const navLinks = document.querySelectorAll("nav a");
+const menuBtn = document.querySelector(".menu-btn");
+const nav = document.querySelector("nav");
+
+navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        nav.classList.remove("active");
+        menuBtn.classList.remove("active");
+    });
+});
 /* =========================
    START PAGE FROM TOP
 ========================= */
