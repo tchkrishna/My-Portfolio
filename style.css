@@ -304,7 +304,7 @@
    MOBILE
 ======================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
     .intro-name {
         font-size: 3.5rem;
@@ -347,6 +347,14 @@
     --transition: 0.3s ease;
 }
 
+@media (max-width: 768px) {
+   body{
+    width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+
+   } 
+}
 body {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
