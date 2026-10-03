@@ -304,7 +304,7 @@
    MOBILE
 ======================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
 
     .intro-name {
         font-size: 3.5rem;
@@ -347,20 +347,29 @@
     --transition: 0.3s ease;
 }
 
-@media (max-width: 768px) {
-   body{
-    width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
-
-   } 
-}
 body {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
     color: var(--text-secondary);
     background: var(--bg-primary);
     overflow-x: hidden;
+}
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Make the main page fill the entire phone */
+body {
+    min-width: 100%;
 }
 a {
     text-decoration: none;
@@ -398,6 +407,7 @@ header {
 header.scrolled {
     position: fixed;
     top: 0;
+    left: 0;
 
     animation: navSlideDown 0.35s ease;
 }
