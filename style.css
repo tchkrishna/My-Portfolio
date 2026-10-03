@@ -309,6 +309,7 @@
     .intro-name {
         font-size: 3.5rem;
         letter-spacing: .05em;
+        font-weight: 700;
     }
 
     .intro-portfolio {
