@@ -398,7 +398,6 @@ header {
 header.scrolled {
     position: fixed;
     top: 0;
-    left: 0;
 
     animation: navSlideDown 0.35s ease;
 }
